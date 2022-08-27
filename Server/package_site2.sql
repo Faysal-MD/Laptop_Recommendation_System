@@ -1,3 +1,4 @@
+--Package for site2
 CREATE OR REPLACE PACKAGE predict_laptop_site2 AS 
 	PROCEDURE nearestNeighbours(A IN NUMBER,B IN NUMBER,C IN FLOAT,D IN NUMBER,E IN FLOAT);
 	PROCEDURE print_memory;	
@@ -7,9 +8,11 @@ CREATE OR REPLACE PACKAGE predict_laptop_site2 AS
 END predict_laptop_site2;
 /
 
+--Procedure for find nearest neighbors
 CREATE OR REPLACE PACKAGE Body predict_laptop_site2 AS
 	PROCEDURE nearestNeighbours(A IN NUMBER,B IN NUMBER,C IN FLOAT,D IN NUMBER,E IN FLOAT)
 	IS	
+	--Difference table creation for site2
 	BEGIN
 		For R in (select pid,absolute_value(memory, A) as df_memory, absolute_value(storage, B) as df_storage,
 			absolute_value(cpu_speed, C) as df_cpu_speed, absolute_value(battery, D) as df_battery,
@@ -19,72 +22,73 @@ CREATE OR REPLACE PACKAGE Body predict_laptop_site2 AS
 			R.df_display);
 		End Loop;		
 	END nearestNeighbours;
-
+	
+	--Show laptop ordered by memory
 	PROCEDURE print_memory
 	IS	
 	loopCount int :=0;
 	BEGIN 
 		For R in (select * from difference_table2@site2 natural join 
-		laptop natural join specification2@site2 order by df_memory) LOOP
+					laptop natural join specification2@site2 order by df_memory) LOOP
 
-		loopCount:= loopCount+1;
-		DBMS_OUTPUT.PUT_LINE('Laptop: '||R.brand||'		'||R.graphics||' Memory: '||R.memory||'		Price: '||R.Price);
+			loopCount:= loopCount+1;
+			DBMS_OUTPUT.PUT_LINE('Laptop: '||R.brand||'		'||R.graphics||' Memory: '||R.memory||'		Price: '||R.Price);
 
-		IF loopCount = 5 THEN
-		EXIT;
-		END IF;
+			IF loopCount = 5 THEN
+				EXIT;
+			END IF;
 		End Loop; 
 	END print_memory;
 
+	--Show laptop ordered by storage
 	PROCEDURE print_storage
 	IS	
 	loopCount int :=0;
 	BEGIN 
 		For R in (select * from difference_table2@site2 natural join 
-		laptop natural join specification2@site2 order by df_storage) LOOP
+				laptop natural join specification2@site2 order by df_storage) LOOP
 
-		loopCount:= loopCount+1;
-		DBMS_OUTPUT.PUT_LINE('Laptop: '||R.brand||'		'||R.graphics||'   Storage: '||R.storage||'      Price: '||R.Price);
+			loopCount:= loopCount+1;
+			DBMS_OUTPUT.PUT_LINE('Laptop: '||R.brand||'		'||R.graphics||'   Storage: '||R.storage||'      Price: '||R.Price);
 
-		IF loopCount = 5 THEN
-		EXIT;
-		END IF;
-
+			IF loopCount = 5 THEN
+				EXIT;
+			END IF;
 		End Loop; 
 	END print_storage;
 
+	--Show laptop ordered by battery
 	PROCEDURE print_battery
 	IS	
 	loopCount int :=0 ;
 	BEGIN 
 		For R in (select * from difference_table2@site2 natural join 
-		laptop natural join specification2@site2 order by df_battery) LOOP
+				laptop natural join specification2@site2 order by df_battery) LOOP
 
-		loopCount:= loopCount+1;
-		DBMS_OUTPUT.PUT_LINE('Laptop: '||R.brand||'		'||R.graphics||' Battery: '||R.battery||'     Price: '||R.Price);
+			loopCount:= loopCount+1;
+			DBMS_OUTPUT.PUT_LINE('Laptop: '||R.brand||'		'||R.graphics||' Battery: '||R.battery||'     Price: '||R.Price);
 
-		IF loopCount = 5 THEN
-		EXIT;
-		END IF;
+			IF loopCount = 5 THEN
+				EXIT;
+			END IF;
 		End Loop; 
-
 	END print_battery;
-
+	
+	--Show laptop ordered by price
 	PROCEDURE print_price
 	IS	
 	loopCount int :=0 ;
 	BEGIN 
 		For R in (select * from difference_table2@site2 natural join 
-		laptop natural join specification2@site2  order by price) LOOP
+				laptop natural join specification2@site2  order by price) LOOP
 
-		loopCount:= loopCount+1;
-		DBMS_OUTPUT.PUT_LINE('Laptop:   '||R.brand||'	'||R.graphics||'    Price:  '||R.Price);
+			loopCount:= loopCount+1;
+			DBMS_OUTPUT.PUT_LINE('Laptop:   '||R.brand||'	'||R.graphics||'    Price:  '||R.Price);
 
-		IF loopCount = 5 THEN
-		EXIT;
-		END IF;
+			IF loopCount = 5 THEN
+				EXIT;
+			END IF;
 		End Loop; 
-
 	END print_price;
 
 END predict_laptop_site2;
