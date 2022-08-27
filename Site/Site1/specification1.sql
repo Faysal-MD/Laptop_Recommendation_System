@@ -1,12 +1,12 @@
 drop table specification1 CASCADE CONSTRAINTS;
 --Vertical Fragment
 create table specification1(
-pid int,
-memory number,
-storage number,
-cpu_speed float,
-battery number,
-display float
+	pid int,
+	memory number,
+	storage number,
+	cpu_speed float,
+	battery number,
+	display float
 );	
 
 CREATE OR REPLACE TRIGGER specification1Trigger

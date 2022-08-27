@@ -1,13 +1,13 @@
 drop table specification2 CASCADE CONSTRAINTS;
 --set linesize 200;
-	
+--Horizontal Fragment
 create table specification2(
-pid int,
-memory number,
-storage number,
-cpu_speed float,
-battery number,
-display float
+	pid int,
+	memory number,
+	storage number,
+	cpu_speed float,
+	battery number,
+	display float
 );	
 
 CREATE OR REPLACE TRIGGER specification2Trigger
